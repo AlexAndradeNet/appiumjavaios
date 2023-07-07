@@ -7,6 +7,7 @@ ext {
     gsonVersion = '2.10.1'
     slf4jVersion = '2.0.6'
     sonarScannerVersion = '3.3'
+    appiumVersion = '8.5.1'
 
     libs = [
             gson     : "com.google.code.gson:gson:${gsonVersion}",
@@ -21,6 +22,7 @@ ext {
                     simple: "org.slf4j:slf4j-simple:${slf4jVersion}",
             ],
             sonarqube: "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:${sonarScannerVersion}",
+            appium  : "io.appium:java-client:${appiumVersion}",
 
             test     : [
                     serenity: [

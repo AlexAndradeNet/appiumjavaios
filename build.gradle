@@ -54,7 +54,8 @@ dependencies {
             libs.cucumber.junit,
             libs.slf4j.api,
             libs.slf4j.simple,
-            libs.sonarqube
+            libs.sonarqube,
+            libs.appium
 
     compileOnly libs.gson
 
