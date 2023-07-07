@@ -1,0 +1,129 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+
+    dependencies {
+        classpath "net.serenity-bdd:serenity-gradle-plugin:3.6.7"
+        classpath( "com.diffplug.spotless:spotless-plugin-gradle:6.19.0" ) {
+            exclude group: 'com.google.guava', module: 'guava-jdk17'
+        }
+    }
+}
+
+plugins {
+    id 'java'
+    id "org.sonarqube" version "3.3"
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'com.diffplug.spotless'
+apply plugin: 'net.serenity-bdd.serenity-gradle-plugin'
+apply plugin: 'org.sonarqube'
+apply from: "$rootDir/gradle/libraries.gradle"
+
+sourceCompatibility=17
+targetCompatibility=17
+
+group 'net.alexandrade'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+/**
+ * This is needed to make sure there are no Cucumber 2 dependencies in the classpath.
+ */
+configurations.all {
+    resolutionStrategy {
+        force libs.cucumber.core
+    }
+}
+
+dependencies {
+    implementation libs.aeonbits,
+            libs.cucumber.java,
+            libs.cucumber.junit,
+            libs.slf4j.api,
+            libs.slf4j.simple,
+            libs.sonarqube
+
+    compileOnly libs.gson
+
+    testImplementation libs.test.serenity.core,
+            libs.test.serenity.ensure,
+            libs.test.serenity.screenplay,
+            libs.test.serenity.screenplayWebdriver,
+            libs.test.serenity.cucumber6,
+            libs.test.junit.junit,
+            libs.test.junit.jupiter
+
+    testRuntimeOnly libs.test.junit.vintage
+}
+
+test {
+    useJUnitPlatform()
+
+    testLogging.showStandardStreams = true
+    systemProperties System.getProperties()
+
+    systemProperty 'java.util.logging.config.file', file('src/test/resources/logging.properties')
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
+/* tasks.withType(Test).configureEach {
+    maxParallelForks = Runtime.runtime.availableProcessors().intdiv(2) ?: 1
+}*/
+
+serenity {
+    // Specify the root package of any JUnit acceptance tests to appear in the Serenity report
+    testRoot = "steps"
+    // Specify the root directory of any Cucumber feature files
+    requirementsDir = "src/test/resources/features"
+}
+
+spotless {
+    encoding 'UTF-8'
+    java {
+        target fileTree('.') {
+            include '**/*.java'
+            exclude '**/build/**', '**/build-*/**'
+        }
+        googleJavaFormat().aosp().reflowLongStrings()
+        formatAnnotations()
+        toggleOffOn()
+        palantirJavaFormat()
+        removeUnusedImports()
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+    gherkin {
+        target 'src/**/*.feature' // you have to set the target manually
+        gherkinUtils() // has its own section below
+    }
+    freshmark {
+        target '*.md' // you have to set the target manually
+        propertiesFile('gradle.properties')		// loads all the properties in the given file
+        properties {
+            it.put('key', 'value')				// specify other properties manually
+        }
+    }
+}
+
+//gradle.startParameter.continueOnFailure = true
+
+test.finalizedBy(aggregate)
+
+tasks.named('build') {
+    dependsOn spotlessApply
+}
