@@ -1,8 +1,18 @@
 # Appium + Java + iOS - 2023
 
+This project is written with the **Screenplay design pattern** that helps to
+maintain the SOLID principles.
+
+You can find a version for Android
+here: [Appium + Java + Android - 2023](https://github.com/AlexAndradeNet/appiumjavaandroid).
+
+---
+
+## 🔧 Tech stack
+
 This project uses the following technologies:
 
-* ⚠️ **MacOS. This does not work in Windows, Linux u other OS.** ⚠️
+* ⚠️ **macOS. This does not work in Windows, Linux u other OS.** ⚠️
 * Java 17
 * Appium 2
 * Serenity BDD
@@ -14,12 +24,6 @@ This project uses the following technologies:
 If you need help to install the environment, you can find the instructions in
 this file [INSTALLATION.md](INSTALLATION.md).
 
-And it's written with the design pattern Screenplay that helps to maintain the
-SOLID principles.
-
-This project is based
-on https://github.com/Jacobvu84/serenity-screenplay-appium/
-
 ---
 
 ## 🚀 Running the project
@@ -28,13 +32,13 @@ on https://github.com/Jacobvu84/serenity-screenplay-appium/
 2. Run the emulator (See [INSTALLATION.md](INSTALLATION.md) for more details):
 
 ```bash
-/Applications/Xcode.app/Contents/Developer/Applications/Simulator.app/Contents/MacOS/Simulator -CurrentDeviceUDID <YOUR-DEVICE-ID>
+/Applications/Xcode.app/Contents/Developer/Applications/Simulator.app/Contents/MacOS/Simulator -CurrentDeviceUDID 447FDF42-DA89-4CF2-88F0-6F7A94402171
 ```
 
 3. Run the Appium server:
 
 ```bash
-appium --allow-insecure true --allow-cors --session-override
+appium --allow-insecure=true --allow-cors --session-override
 ```
 
 4. Run the tests. See the two next sections for more details.
@@ -73,7 +77,10 @@ open target/site/serenity/index.html
 
 ---
 
-## 💅🏽 Linting
+## 💅🏽 Linting / Coding style
+
+Coding style is very important. It helps to maintain the code clean and easy to
+read.
 
 > The ratio of time spent reading versus writing is well over 10 to 1. We are
 > constantly reading old code as part of the effort to write new code. …making
@@ -84,8 +91,7 @@ _Robert C. Martin (a.k.a Uncle Bob)_
 
 ### Java
 
-The Java files are linted using the `checkstyle` tool. The configuration file is
-located in the `checkstyle.xml` file.
+The Java files are linted using the Google Java Format rules.
 Run the following command to lint the Java files:
 
 ```bash

@@ -42,6 +42,13 @@ Install the webdriver
 appium driver install xcuitest
 ```
 
+### Install Appium Inspector
+
+Appium Inspector is a GUI application to help us inspect the elements of our app
+retrieving the locators.
+
+https://github.com/appium/appium-inspector/releases
+
 ### Install Carthage
 
 You can think of Carthage as a tool to allow adding frameworks to your Cocoa
@@ -123,10 +130,11 @@ create your own device using `xcrun simctl create` if you want).
 Boot the simulator with that device (replacing YOUR-DEVICE-ID with the ID)
 
 ```bash
-/Applications/Xcode.app/Contents/Developer/Applications/Simulator.app/Contents/MacOS/Simulator -CurrentDeviceUDID <YOUR-DEVICE-ID>
+/Applications/Xcode.app/Contents/Developer/Applications/Simulator.app/Contents/MacOS/Simulator -CurrentDeviceUDID 447FDF42-DA89-4CF2-88F0-6F7A94402171
 ```
 
-Now you should be able to use _simctl_ to install and launch commands.
+**OPTIONAL:** Now you should be able to use _simctl_ to install and launch
+commands.
 
 ```bash
 xcrun simctl install <YOUR-DEVICE-ID> <PATH-TO-APPLICATION-BUNDLE>
